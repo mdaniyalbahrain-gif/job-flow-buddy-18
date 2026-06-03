@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
 import { Lang, RTL_LANGS, LANGS, t } from "@/lib/i18n";
 import { actions, COUNTRIES, CURRENCY, PRESET_FIELDS, useStore, type PlanName } from "@/lib/store";
+import { Logo } from "./Logo";
 
 const WA = "https://wa.me/97333740941";
 const PLATFORMS = ["LinkedIn Jobs","Indeed","Glassdoor","Bayt.com","Naukrigulf","GulfTalent","Google Jobs","ZipRecruiter","Monster","Jooble"];
@@ -52,8 +53,8 @@ function Navbar({ lang, onLogin }: { lang: Lang; onLogin: () => void }) {
     <nav className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
         <a href="#top" className="flex items-center gap-2 font-bold tracking-tight">
-          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow grid place-items-center text-primary-foreground">J</span>
-          <span className="hidden sm:inline text-gradient-primary">{t(lang, "brand")}</span>
+          <Logo size="sm" reveal />
+          <span className="hidden sm:inline text-gradient-primary animate-gradient">{t(lang, "brand")}</span>
         </a>
         <div className="flex items-center gap-2">
           <LangSwitcher />
