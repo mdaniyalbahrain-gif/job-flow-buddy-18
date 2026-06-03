@@ -1,29 +1,45 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { useStore } from "@/lib/store";
+import { RTL_LANGS } from "@/lib/i18n";
+import { PublicScreen } from "@/components/jas/Public";
+import { LoginScreen } from "@/components/jas/Login";
+import { AdminPanel } from "@/components/jas/AdminPanel";
+import { ClientDashboard } from "@/components/jas/ClientDashboard";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "JOB ALERT SERVICE — Real-time Job Alerts on WhatsApp & Email" },
+      { name: "description", content: "Bahrain's #1 job alert service. Real-time alerts from LinkedIn, Indeed, Google Jobs and more — get the job before others." },
+      { property: "og:title", content: "JOB ALERT SERVICE" },
+      { property: "og:description", content: "Real-time job alerts from 10+ platforms on WhatsApp & Email." },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const s = useStore();
+  const [loginOpen, setLoginOpen] = useState(false);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.dir = RTL_LANGS.includes(s.lang) ? "rtl" : "ltr";
+    html.lang = s.lang.toLowerCase();
+  }, [s.lang]);
+
+  let screen;
+  if (s.sessionType === "admin") screen = <AdminPanel />;
+  else if (s.sessionType === "client") screen = <ClientDashboard />;
+  else if (loginOpen) screen = <LoginScreen onBack={() => setLoginOpen(false)} />;
+  else screen = <PublicScreen onLogin={() => setLoginOpen(true)} />;
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      {screen}
+      <Toaster position="bottom-right" theme="dark" richColors />
+    </>
   );
 }
