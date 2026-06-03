@@ -80,25 +80,26 @@ function LangSwitcher() {
 
 function Hero({ lang }: { lang: Lang }) {
   return (
-    <section id="top" className="relative overflow-hidden bg-hero">
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="absolute top-20 -left-20 w-96 h-96 rounded-full bg-primary/30 blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-accent/30 blur-3xl animate-pulse" />
+    <section id="top" className="relative overflow-hidden bg-hero bg-mesh">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 -left-24 w-[28rem] h-[28rem] rounded-full bg-primary/30 blur-3xl animate-blob" />
+        <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] rounded-full bg-accent/40 blur-3xl animate-blob" style={{ animationDelay: "-6s" }} />
+        <div className="absolute top-1/3 left-1/2 w-72 h-72 rounded-full bg-primary-glow/30 blur-3xl animate-blob" style={{ animationDelay: "-12s" }} />
       </div>
       <div className="relative max-w-7xl mx-auto px-6 py-24 sm:py-32 text-center">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary border border-border text-sm mb-6">
-          {t(lang, "badge")}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card/80 backdrop-blur border border-primary/30 text-sm mb-6 shadow-card">
+          <span className="w-2 h-2 rounded-full bg-primary animate-pulse-dot" /> {t(lang, "badge")}
         </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-5xl sm:text-7xl font-black tracking-tight leading-[1.05]">
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, type: "spring", stiffness: 80 }} className="text-5xl sm:text-7xl font-black tracking-tight leading-[1.05]">
           <span className="block">{t(lang, "h1a")}</span>
-          <span className="block text-gradient-primary">{t(lang, "h1b")}</span>
+          <span className="block text-gradient-primary animate-gradient">{t(lang, "h1b")}</span>
         </motion.h1>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
           {t(lang, "sub")}
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-10 flex flex-wrap justify-center gap-3">
-          <a href="#signup" className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-glow hover:scale-105 transition">{t(lang, "ctaStart")}</a>
-          <a href="#pricing" className="px-6 py-3 rounded-xl border border-border hover:bg-secondary transition">{t(lang, "viewPlans")}</a>
+          <motion.a whileHover={{ scale: 1.06, y: -2 }} whileTap={{ scale: 0.97 }} href="#signup" className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-primary-foreground font-semibold shadow-glow animate-glow-pulse">{t(lang, "ctaStart")}</motion.a>
+          <motion.a whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }} href="#pricing" className="px-7 py-3.5 rounded-xl border-2 border-primary/40 bg-card/60 backdrop-blur hover:bg-card transition">{t(lang, "viewPlans")}</motion.a>
         </motion.div>
       </div>
     </section>
