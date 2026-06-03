@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { actions, useStore } from "@/lib/store";
 import { t } from "@/lib/i18n";
+import { Logo } from "./Logo";
 
 export function LoginScreen({ onBack }: { onBack: () => void }) {
   const s = useStore();
@@ -23,9 +24,10 @@ export function LoginScreen({ onBack }: { onBack: () => void }) {
     <div className="min-h-screen grid place-items-center px-6 bg-hero">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md p-8 rounded-2xl bg-card border border-border shadow-card">
         <button onClick={onBack} className="text-sm text-muted-foreground hover:text-foreground mb-6">{t(lang, "backToSite")}</button>
-        <div className="text-center mb-8">
-          <div className="text-2xl font-black text-gradient-primary">{t(lang, "brand")}</div>
-          <div className="text-sm text-muted-foreground mt-1">{t(lang, "accessAcc")}</div>
+        <div className="text-center mb-8 flex flex-col items-center gap-3">
+          <Logo size="xl" reveal />
+          <div className="text-2xl font-black text-gradient-primary animate-gradient">{t(lang, "brand")}</div>
+          <div className="text-sm text-muted-foreground">{t(lang, "accessAcc")}</div>
         </div>
         <form onSubmit={submit} className="space-y-3">
           <input value={emailOrWa} onChange={(e) => setEmailOrWa(e.target.value)} placeholder={t(lang, "emailOrWa")} className="w-full bg-input border border-border rounded-lg px-3 h-11 text-sm" />

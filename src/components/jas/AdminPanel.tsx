@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { actions, COUNTRIES, CURRENCY, PRESET_FIELDS, useStore, type Client, type PlanName, type PackagePlan } from "@/lib/store";
 import { t } from "@/lib/i18n";
 import { Slider } from "./Public";
+import { Logo } from "./Logo";
 
 type Page = "dashboard" | "clients" | "pending" | "analytics" | "add" | "packages";
 
@@ -26,9 +27,9 @@ export function AdminPanel() {
     <div className="min-h-screen flex bg-background">
       <aside className="hidden md:flex flex-col w-60 border-r border-border p-4 sticky top-0 h-screen">
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow grid place-items-center text-primary-foreground font-bold">J</div>
+          <Logo size="md" reveal />
           <div>
-            <div className="font-black text-sm text-gradient-primary">{t(lang, "brand")}</div>
+            <div className="font-black text-sm text-gradient-primary animate-gradient">{t(lang, "brand")}</div>
             <div className="text-[10px] px-1.5 py-0.5 inline-block rounded bg-accent text-accent-foreground font-bold">ADMIN</div>
           </div>
         </div>
