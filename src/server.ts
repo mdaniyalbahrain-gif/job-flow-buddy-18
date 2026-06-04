@@ -1,54 +1,37 @@
 import "./lib/error-capture";
+import { createServer } from "node:http";
+import { readFileSync, existsSync } from "node:fs";
+import { join, extname } from "node:path";
 
-import { consumeLastCapturedError } from "./lib/error-capture";
-import { renderErrorPage } from "./lib/error-page";
+const PORT = parseInt(process.env.PORT || "3000");
+const CLIENT_DIR = join(process.cwd(), "dist/client");
 
-type ServerEntry = {
-  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
+const MIME: Record<string, string> = {
+  ".js": "application/javascript",
+  ".css": "text/css",
+  ".html": "text/html",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+  ".json": "application/json",
 };
 
-let serverEntryPromise: Promise<ServerEntry> | undefined;
+const server = createServer((req, res) => {
+  const url = req.url || "/";
+  const filePath = join(CLIENT_DIR, url === "/" ? "index.html" : url);
 
-async function getServerEntry(): Promise<ServerEntry> {
-  if (!serverEntryPromise) {
-    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
-      (m) => (m.default ?? m) as ServerEntry,
-    );
+  if (existsSync(filePath) && !filePath.endsWith("/")) {
+    const ext = extname(filePath);
+    res.writeHead(200, { "Content-Type": MIME[ext] || "text/plain" });
+    res.end(readFileSync(filePath));
+  } else {
+    const index = join(CLIENT_DIR, "index.html");
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(readFileSync(index));
   }
-  return serverEntryPromise;
-}
+});
 
-// h3 swallows in-handler throws into a normal 500 Response with body
-// {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
-async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
-  if (response.status < 500) return response;
-  const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes("application/json")) return response;
-
-  const body = await response.clone().text();
-  if (!body.includes('"unhandled":true') || !body.includes('"message":"HTTPError"')) {
-    return response;
-  }
-
-  console.error(consumeLastCapturedError() ?? new Error(`h3 swallowed SSR error: ${body}`));
-  return new Response(renderErrorPage(), {
-    status: 500,
-    headers: { "content-type": "text/html; charset=utf-8" },
-  });
-}
-
-export default {
-  async fetch(request: Request, env: unknown, ctx: unknown) {
-    try {
-      const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
-    } catch (error) {
-      console.error(error);
-      return new Response(renderErrorPage(), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
-    }
-  },
-};
+server.listen(PORT, () => {
+  console.log(`Started server: http://localhost:${PORT}`);
+});
