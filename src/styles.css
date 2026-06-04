@@ -243,3 +243,35 @@
 .animate-morph { background-size: 300% 300%; animation: morph-bg 14s ease infinite; }
 
 [dir="rtl"] .animate-marquee { animation-direction: reverse; }
+
+/* ============================================================
+   Premium app-like interaction: disable text selection & i-beam
+   cursor globally. Re-enable for real text input surfaces.
+   ============================================================ */
+html, body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: default;
+}
+
+button, a, [role="button"], summary, label {
+  cursor: pointer;
+}
+
+input, textarea, select, [contenteditable="true"], [contenteditable=""] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+select { cursor: pointer; }
+
+::selection {
+  background: color-mix(in oklab, var(--primary) 35%, transparent);
+  color: var(--foreground);
+}
