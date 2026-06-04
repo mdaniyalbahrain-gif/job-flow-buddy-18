@@ -265,7 +265,7 @@ function Hero({ lang }: { lang: Lang }) {
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div style={{ x: springX, y: springY }} className="absolute top-10 -left-24 w-[40rem] h-[40rem] rounded-full bg-primary/25 blur-[100px] animate-blob" />
-        <motion.div style={{ x: useTransform(springX, v => -v * 0.7), y: useTransform(springY, v => -v * 0.7) }} className="absolute bottom-0 right-0 w-[36rem] h-[36rem] rounded-full bg-accent/30 blur-[100px] animate-blob" style2={{ animationDelay: "-6s" }} />
+        <motion.div style={{ x: useTransform(springX, v => -v * 0.7), y: useTransform(springY, v => -v * 0.7) }} className="absolute bottom-0 right-0 w-[36rem] h-[36rem] rounded-full bg-accent/30 blur-[100px] animate-blob" />
         <div className="absolute top-1/3 left-1/2 w-80 h-80 rounded-full bg-primary-glow/20 blur-[80px] animate-blob" style={{ animationDelay: "-12s" }} />
         {/* Mesh grid overlay */}
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "linear-gradient(rgba(255,107,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,107,0,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
@@ -419,9 +419,9 @@ function Stats({ lang }: { lang: Lang }) {
 
   const items = [
     { v: `${subs.v}+`, l: t(lang, "activeSubs") },
-    { v: `${jobs.v.toLocaleString()}+`, l: t(lang, "jobsTracked") },
+    { v: `${jobs.v.toLocaleString()}+`, l: t(lang, "jobsSent") },
     { v: `${countries.v}+`, l: t(lang, "countries") },
-    { v: watch.toString(), l: t(lang, "liveWatchers") },
+    { v: watch.toString(), l: t(lang, "watching") },
   ];
   return (
     <section ref={ref} className="py-20 px-6 relative overflow-hidden">
@@ -469,15 +469,15 @@ function Marquee() {
 
 function HowItWorks({ lang }: { lang: Lang }) {
   const steps = useMemo(() => [
-    { n: "1", icon: "📝", title: t(lang, "step1Title"), desc: t(lang, "step1Desc") },
-    { n: "2", icon: "🤖", title: t(lang, "step2Title"), desc: t(lang, "step2Desc") },
-    { n: "3", icon: "🚀", title: t(lang, "step3Title"), desc: t(lang, "step3Desc") },
+    { n: "1", icon: "📝", title: t(lang, "step1t"), desc: t(lang, "step1d") },
+    { n: "2", icon: "🤖", title: t(lang, "step2t"), desc: t(lang, "step2d") },
+    { n: "3", icon: "🚀", title: t(lang, "step3t"), desc: t(lang, "step3d") },
   ], [lang]);
   return (
     <section className="py-24 px-6" id="how">
       <div className="max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "howTitle")}</h2>
+          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "howItWorks")}</h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">{t(lang, "howSub")}</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-8 relative">
@@ -1122,7 +1122,7 @@ function LiveFeed({ lang }: { lang: Lang }) {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-card/20 to-transparent" />
       <div className="max-w-3xl mx-auto relative">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-black mb-3">{t(lang, "liveTitle")}</h2>
+          <h2 className="text-3xl sm:text-4xl font-black mb-3">{t(lang, "liveAlerts")}</h2>
           <p className="text-muted-foreground">{t(lang, "liveSub")}</p>
         </motion.div>
         <div className="space-y-3">
@@ -1225,7 +1225,7 @@ function SignupForm({ lang }: { lang: Lang }) {
               ))}
             </div>
             <button type="button" onClick={() => setOpen(!open)} className="text-xs text-primary hover:underline">
-              {open ? "▲ " : "▼ "}{t(lang, "addCustomField")}
+              {open ? "▲ " : "▼ "}{t(lang, "addCustom")}
             </button>
             <AnimatePresence>
               {open && (
@@ -1309,7 +1309,7 @@ function FAQ({ lang }: { lang: Lang }) {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-card/30 to-transparent" />
       <div className="max-w-3xl mx-auto relative">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "faqTitle")}</h2>
+          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "faq")}</h2>
           <p className="text-muted-foreground text-lg">{t(lang, "faqSub")}</p>
         </motion.div>
         <div className="space-y-3">
@@ -1371,7 +1371,7 @@ function Contact({ lang }: { lang: Lang }) {
       </div>
       <div className="max-w-xl mx-auto relative">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "contactTitle")}</h2>
+          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "contact")}</h2>
           <p className="text-muted-foreground text-lg">{t(lang, "contactSub")}</p>
         </motion.div>
         {sent ? (
