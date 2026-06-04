@@ -333,7 +333,7 @@ function SignupForm({ lang }: { lang: Lang }) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !wa || !city || !password) { toast.error("Please fill required fields"); return; }
+    if (!name || !wa || !password) { toast.error("Please fill required fields"); return; }
     if (password.length < 8) { toast.error("Password must be at least 8 chars"); return; }
     actions.addClient({
       name, whatsapp: wa, email: email || undefined, city, country,
@@ -356,7 +356,7 @@ function SignupForm({ lang }: { lang: Lang }) {
             <Input value={name} onChange={setName} placeholder={t(lang, "fullName") + " *"} />
             <Input value={wa} onChange={setWa} placeholder={t(lang, "whatsappNum") + " *"} />
             <Input value={email} onChange={setEmail} placeholder={t(lang, "email")} helper={t(lang, "emailOpt")} />
-            <Input value={city} onChange={setCity} placeholder={t(lang, "city") + " *"} />
+            <Input value={city} onChange={setCity} placeholder={t(lang, "city")} helper="Optional" />
             <Select value={country} onChange={setCountry} options={COUNTRIES as unknown as string[]} label={t(lang, "country")} />
             <Select id="plan-select" value={plan} onChange={(v) => setPlan(v as PlanName)} options={["Starter","Pro","Max","Custom"]} label={t(lang, "plan")} />
           </div>
