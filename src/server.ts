@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { readFileSync, existsSync, statSync } from "node:fs";
+import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
 import { join, extname } from "node:path";
 
 const PORT = parseInt(process.env.PORT || "3000");
@@ -24,7 +24,6 @@ const fallbackHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta nam
 const server = createServer((req, res) => {
   const url = req.url?.split("?")[0] || "/";
   const filePath = join(CLIENT_DIR, url);
-  console.log("REQ:", url, "PATH:", filePath, "EXISTS:", existsSync(filePath));
   try {
     if (existsSync(filePath) && statSync(filePath).isFile()) {
       const ext = extname(filePath);
@@ -41,5 +40,16 @@ const server = createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`Started server: http://localhost:${PORT}`);
   console.log("CLIENT_DIR:", CLIENT_DIR);
-  console.log("EXISTS:", existsSync(CLIENT_DIR));
+  console.log("CLIENT EXISTS:", existsSync(CLIENT_DIR));
+  try {
+    console.log("CLIENT FILES:", readdirSync(CLIENT_DIR));
+    const assetsDir = join(CLIENT_DIR, "assets");
+    if (existsSync(assetsDir)) {
+      console.log("ASSETS FILES:", readdirSync(assetsDir));
+    } else {
+      console.log("ASSETS DIR MISSING!");
+    }
+  } catch (e) {
+    console.log("READ ERROR:", e);
+  }
 });
