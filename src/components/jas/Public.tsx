@@ -654,7 +654,7 @@ function PremiumPricing({ lang }: { lang: Lang }) {
                     exit={{ opacity: 0, y: 10 }}
                     className="flex items-end gap-1"
                   >
-                    <span className="text-5xl font-black text-primary">"BD "}{yearly ? plan.yearlyPrice : plan.monthlyPrice}</span>
+                    <span className="text-5xl font-black text-primary">BD {yearly ? plan.yearlyPrice : plan.monthlyPrice}</span>
                     <span className="text-muted-foreground mb-2 text-sm">/{yearly ? "yr" : "mo"}</span>
                   </motion.div>
                 </AnimatePresence>
@@ -1277,7 +1277,7 @@ function Select({ lang, name, label, options, required }: { lang: Lang; name: st
   );
 }
 
-function Slider({ lang }: { lang: Lang }) {
+export function Slider({ lang }: { lang: Lang }) {
   const s = useStore();
   return (
     <div>
