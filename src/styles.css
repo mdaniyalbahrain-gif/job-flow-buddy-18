@@ -275,3 +275,259 @@ select { cursor: pointer; }
   background: color-mix(in oklab, var(--primary) 35%, transparent);
   color: var(--foreground);
 }
+
+
+/* ===== PREMIUM CINEMATIC UPGRADE STYLES ===== */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium card hover glow */
+.shadow-glow {
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.2);
+}
+
+/* Line clamp utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Floating animation for particles */
+@keyframes float-particle {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-40px) scale(1.2); opacity: 0.8; }
+}
+
+/* Premium navbar floating effect */
+@keyframes navbar-glow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(255, 107, 0, 0.05); }
+  50% { box-shadow: 0 4px 40px rgba(255, 107, 0, 0.15); }
+}
+
+/* Hero text shimmer */
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, var(--foreground) 25%, var(--primary) 50%, var(--foreground) 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 3s linear infinite;
+}
+
+/* Pricing card conic gradient border */
+@keyframes conic-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Testimonial card entrance */
+@keyframes card-entrance {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.card-entrance {
+  animation: card-entrance 0.5s cubic-bezier(0.25, 0.4, 0.25, 1) both;
+}
+
+/* WhatsApp button glow */
+@keyframes whatsapp-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 0 50px rgba(37, 211, 102, 0.8), 0 0 80px rgba(37, 211, 102, 0.3); }
+}
+
+/* About timeline connector */
+.timeline-connector {
+  background: linear-gradient(to bottom, rgba(255, 107, 0, 0.1), rgba(255, 107, 0, 0.8), rgba(255, 107, 0, 0.1));
+}
+
+/* Scroll reveal base */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Motion blur on transitions */
+@keyframes motion-blur-enter {
+  from { opacity: 0; filter: blur(8px); transform: translateX(20px); }
+  to { opacity: 1; filter: blur(0); transform: translateX(0); }
+}
+
+/* Premium gradient text */
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-glow, var(--primary)), #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+}
+
+/* Animated glow pulse for CTA buttons */
+@keyframes glow-pulse-btn {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 0, 0.3), 0 4px 15px rgba(255, 107, 0, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(255, 107, 0, 0.6), 0 8px 25px rgba(255, 107, 0, 0.4); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse-btn 2s ease-in-out infinite;
+}
+
+/* Glass morphism enhancement */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Pricing card popular badge */
+@keyframes badge-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 0, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(255, 107, 0, 0.8), 0 0 40px rgba(255, 107, 0, 0.3); }
+}
+
+/* Star rating animation */
+@keyframes star-appear {
+  from { transform: scale(0) rotate(-30deg); opacity: 0; }
+  to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* Verified badge shimmer */
+@keyframes verified-shimmer {
+  0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.3); }
+}
+
+/* Smooth section transitions */
+section {
+  transition: background 0.3s ease;
+}
+
+/* Avatar glow ring */
+@keyframes avatar-ring {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.3), 0 0 20px rgba(255, 107, 0, 0.1); }
+  50% { box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.6), 0 0 30px rgba(255, 107, 0, 0.3); }
+}
+
+/* Navbar active underline animation */
+@keyframes underline-appear {
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+/* Hero scroll indicator */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* Background mesh pattern for hero */
+.bg-mesh {
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 0, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 150, 50, 0.08) 0%, transparent 50%);
+}
+
+/* Floating parallax depth */
+@keyframes parallax-float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-8px) translateX(4px); }
+  75% { transform: translateY(6px) translateX(-3px); }
+}
+
+/* Premium section reveal */
+@keyframes section-reveal {
+  from { opacity: 0; transform: translateY(40px); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Carousel motion blur transition */
+@keyframes carousel-enter {
+  from { opacity: 0; transform: translateX(40px); filter: blur(6px); }
+  to { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+@keyframes carousel-exit {
+  from { opacity: 1; transform: translateX(0); filter: blur(0); }
+  to { opacity: 0; transform: translateX(-40px); filter: blur(6px); }
+}
+
+/* Ambient background animation */
+@keyframes ambient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Typography enhancement */
+h1, h2, h3, h4 {
+  letter-spacing: -0.02em;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 0, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 0, 0.6);
+}
+
+/* Focus styles */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid rgba(255, 107, 0, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Testimonial carousel navigation dots */
+.carousel-dot {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+.carousel-dot.active {
+  width: 24px;
+  background: var(--primary);
+}
+.carousel-dot.inactive {
+  width: 8px;
+  background: var(--border);
+}
+
+/* Team card hover effect */
+.team-card:hover .team-avatar {
+  animation: avatar-ring 1.5s ease-in-out infinite;
+}
+
+/* Responsive motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
