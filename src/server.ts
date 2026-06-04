@@ -20,16 +20,12 @@ const MIME: Record<string, string> = {
   ".woff2": "font/woff2",
 };
 
-function buildFallbackHtml(): string {
+function buildHtml(): string {
   const files = existsSync(ASSETS_DIR) ? readdirSync(ASSETS_DIR) : [];
-  const cssFiles = files.filter(f => f.endsWith(".css"));
-  const jsFiles = files.filter(f => f.endsWith(".js"));
-  const cssLinks = cssFiles.map(f => `<link rel="stylesheet" href="/assets/${f}">`).join("");
-  const jsScripts = jsFiles.map(f => `<script type="module" src="/assets/${f}"></script>`).join("");
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${cssLinks}</head><body>${jsScripts}</body></html>`;
+  const css = files.filter(f => f.endsWith(".css")).map(f => `<link rel="stylesheet" href="/assets/${f}">`).join("");
+  const js = files.filter(f => f.endsWith(".js")).map(f => `<script type="module" src="/assets/${f}"></script>`).join("");
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${css}</head><body>${js}</body></html>`;
 }
-
-const fallbackHtml = buildFallbackHtml();
 
 const server = createServer((req, res) => {
   const url = req.url?.split("?")[0] || "/";
@@ -37,14 +33,13 @@ const server = createServer((req, res) => {
   try {
     if (existsSync(filePath) && statSync(filePath).isFile()) {
       const ext = extname(filePath);
-      const mime = MIME[ext] || "application/octet-stream";
-      res.writeHead(200, { "Content-Type": mime });
+      res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
       res.end(readFileSync(filePath));
       return;
     }
   } catch {}
   res.writeHead(200, { "Content-Type": "text/html" });
-  res.end(fallbackHtml);
+  res.end(buildHtml());
 });
 
 server.listen(PORT, () => {
