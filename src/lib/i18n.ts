@@ -87,7 +87,7 @@ export const translations: Record<Lang, Dict> = {
     tlStep4: "Job Alerts Running",
     tlStep4dOk: "Receiving alerts on WhatsApp",
     tlStep4dWait: "Will start after approval",
-  }    // New keys for premium upgrade
+      // New keys for premium upgrade
     howTitle: "How It Works",
     howSub: "Three simple steps to get your dream job",
     pricingTitle: "Choose Your Plan",
