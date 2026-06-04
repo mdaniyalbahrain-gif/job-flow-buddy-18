@@ -42,3 +42,5 @@ const server = createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`Started server: http://localhost:${PORT}`);
 });
+console.log("CLIENT_DIR:", CLIENT_DIR);
+console.log("EXISTS:", existsSync(CLIENT_DIR));
