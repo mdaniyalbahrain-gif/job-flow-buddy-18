@@ -24,7 +24,7 @@ const fallbackHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta nam
 const server = createServer((req, res) => {
   const url = req.url?.split("?")[0] || "/";
   const filePath = join(CLIENT_DIR, url);
-
+  console.log("REQ:", url, "PATH:", filePath, "EXISTS:", existsSync(filePath));
   try {
     if (existsSync(filePath) && statSync(filePath).isFile()) {
       const ext = extname(filePath);
@@ -34,13 +34,12 @@ const server = createServer((req, res) => {
       return;
     }
   } catch {}
-
   res.writeHead(200, { "Content-Type": "text/html" });
   res.end(fallbackHtml);
 });
 
 server.listen(PORT, () => {
   console.log(`Started server: http://localhost:${PORT}`);
+  console.log("CLIENT_DIR:", CLIENT_DIR);
+  console.log("EXISTS:", existsSync(CLIENT_DIR));
 });
-console.log("CLIENT_DIR:", CLIENT_DIR);
-console.log("EXISTS:", existsSync(CLIENT_DIR));
