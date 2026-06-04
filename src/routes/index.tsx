@@ -9,6 +9,7 @@ import { LoginScreen } from "@/components/jas/Login";
 import { AdminPanel } from "@/components/jas/AdminPanel";
 import { ClientDashboard } from "@/components/jas/ClientDashboard";
 import { LOGO_URL } from "@/components/jas/Logo";
+import { CursorGlow, LoadingScreen, ParticleField } from "@/components/jas/FxLayer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,6 +47,9 @@ function Index() {
 
   return (
     <>
+      <LoadingScreen />
+      <ParticleField />
+      <CursorGlow />
       <AnimatePresence mode="wait">
         <motion.div
           key={key}
