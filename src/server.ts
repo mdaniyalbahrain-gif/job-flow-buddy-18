@@ -26,7 +26,7 @@ const server = createServer((req, res) => {
     res.writeHead(200, { "Content-Type": MIME[ext] || "text/plain" });
     res.end(readFileSync(filePath));
   } else {
-    const index = join(CLIENT_DIR, "index.html");
+   const index = join(process.cwd(), "dist/server/assets/start-D4mdwD77.js").replace(/assets.*/, "index.html") || join(CLIENT_DIR, "_index.html");
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(readFileSync(index));
   }
