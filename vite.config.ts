@@ -5,5 +5,6 @@ export default defineConfig({
   },
   vite: {
     publicDir: "public",
+    ssr: false,
   },
 });
