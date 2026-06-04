@@ -380,3 +380,209 @@ function Packages() {
     </div>
   );
 }
+
+/* ====================== LIVE JOBS ====================== */
+
+function Counter({ to, decimals = 0 }: { to: number; decimals?: number }) {
+  const mv = useMotionValue(0);
+  const rounded = useTransform(mv, (v) => v.toFixed(decimals));
+  useEffect(() => {
+    const controls = animate(mv, to, { duration: 1.2, ease: [0.22, 1, 0.36, 1] });
+    return controls.stop;
+  }, [to, mv]);
+  return <motion.span>{rounded}</motion.span>;
+}
+
+const JOB_TITLES = [
+  "Senior Frontend Engineer", "Accountant", "Marketing Manager", "DevOps Engineer",
+  "UI/UX Designer", "Sales Executive", "Project Manager", "Data Analyst",
+  "HR Specialist", "Customer Support Lead", "iOS Developer", "Civil Engineer",
+  "Chef de Partie", "Receptionist", "Procurement Officer", "Cyber Security Analyst",
+];
+const JOB_COMPANIES = ["Aramco", "Emirates NBD", "Batelco", "Zain", "Etisalat", "Careem", "Talabat", "STC", "Almosafer", "PwC", "KPMG", "Noon"];
+const JOB_CITIES = ["Manama", "Dubai", "Riyadh", "Doha", "Kuwait City", "Abu Dhabi", "Muscat", "Jeddah", "Karachi"];
+const JOB_SOURCES = ["LinkedIn", "Indeed", "Bayt", "Google Jobs", "Naukrigulf", "GulfTalent"];
+
+type LiveJob = { id: number; title: string; company: string; city: string; source: string; salary: string; ts: number };
+
+function makeJob(id: number): LiveJob {
+  const r = (a: string[]) => a[Math.floor(Math.random() * a.length)];
+  return {
+    id,
+    title: r(JOB_TITLES),
+    company: r(JOB_COMPANIES),
+    city: r(JOB_CITIES),
+    source: r(JOB_SOURCES),
+    salary: `${(500 + Math.floor(Math.random() * 35) * 100)} ${r(["BHD","AED","SAR","USD"])}`,
+    ts: Date.now(),
+  };
+}
+
+function LiveJobs() {
+  const idRef = useRef(1);
+  const [jobs, setJobs] = useState<LiveJob[]>(() => Array.from({ length: 6 }).map(() => makeJob(idRef.current++)));
+  const [total, setTotal] = useState(2841);
+  const [perMin, setPerMin] = useState(12);
+  const [activeFeeds, setActiveFeeds] = useState(10);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      setJobs((prev) => [makeJob(idRef.current++), ...prev].slice(0, 12));
+      setTotal((t) => t + 1);
+      setPerMin((p) => Math.max(6, Math.min(30, p + (Math.random() > 0.5 ? 1 : -1))));
+      setActiveFeeds((a) => Math.max(8, Math.min(14, a + (Math.random() > 0.5 ? 0 : 1) - (Math.random() > 0.7 ? 1 : 0))));
+    }, 2200);
+    return () => clearInterval(id);
+  }, [paused]);
+
+  const sourceCounts = JOB_SOURCES.map((src) => ({
+    src,
+    count: jobs.filter((j) => j.source === src).length,
+  }));
+  const maxSrc = Math.max(1, ...sourceCounts.map((s) => s.count));
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h1 className="text-3xl font-black flex items-center gap-3">
+            Live Jobs
+            <span className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-success/15 text-success font-bold">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse-dot" /> LIVE
+            </span>
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">Real-time feed across 10+ job platforms</p>
+        </div>
+        <button onClick={() => setPaused((p) => !p)} className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-secondary btn-elastic">
+          {paused ? "▶ Resume Feed" : "⏸ Pause Feed"}
+        </button>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <LiveStat label="Total Jobs Captured" value={total} accent="primary" />
+        <LiveStat label="Jobs / Minute" value={perMin} accent="accent" />
+        <LiveStat label="Active Feeds" value={activeFeeds} accent="success" />
+        <LiveStat label="Showing Now" value={jobs.length} accent="warning" />
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-card border border-border shadow-card relative overflow-hidden">
+          <div className="absolute inset-0 bg-mesh opacity-40 pointer-events-none" />
+          <div className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold">Incoming Jobs</h3>
+              <span className="text-xs text-muted-foreground">Auto-updating every ~2s</span>
+            </div>
+            <div className="space-y-2">
+              <AnimatePresence initial={false}>
+                {jobs.map((j, i) => (
+                  <motion.div
+                    key={j.id}
+                    layout
+                    initial={{ opacity: 0, y: -20, scale: 0.96, filter: "blur(6px)" }}
+                    animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, x: 30, filter: "blur(6px)" }}
+                    transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                    className="flex items-center gap-3 p-3 rounded-xl glass hover-lift"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-glow grid place-items-center text-primary-foreground font-black shadow-glow">
+                      {j.company[0]}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-sm truncate">{j.title}</div>
+                      <div className="text-xs text-muted-foreground truncate">{j.company} · {j.city} · {j.source}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs font-bold text-primary">{j.salary}</div>
+                      {i === 0 && <div className="text-[10px] text-success font-bold">NEW</div>}
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="p-6 rounded-2xl bg-card border border-border shadow-card">
+            <h3 className="font-bold mb-4">Sources Activity</h3>
+            <div className="space-y-3">
+              {sourceCounts.map((s) => (
+                <div key={s.src}>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="font-semibold">{s.src}</span>
+                    <span className="text-muted-foreground"><Counter to={s.count} /></span>
+                  </div>
+                  <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-primary to-primary-glow"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(s.count / maxSrc) * 100}%` }}
+                      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-card border border-border shadow-card text-center">
+            <h3 className="font-bold mb-3">Feed Health</h3>
+            <RingProgress value={Math.min(100, perMin * 4)} />
+            <div className="text-xs text-muted-foreground mt-2">Throughput score</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LiveStat({ label, value, accent }: { label: string; value: number; accent: "primary" | "accent" | "success" | "warning" }) {
+  const tone =
+    accent === "primary" ? "from-primary to-primary-glow" :
+    accent === "accent" ? "from-accent to-primary" :
+    accent === "success" ? "from-success to-primary-glow" :
+    "from-warning to-primary";
+  return (
+    <motion.div whileHover={{ y: -4 }} className="relative p-5 rounded-2xl bg-card border border-border shadow-card overflow-hidden group">
+      <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full bg-gradient-to-br ${tone} opacity-20 blur-2xl group-hover:opacity-40 transition`} />
+      <div className="relative">
+        <div className={`text-3xl font-black bg-gradient-to-r ${tone} bg-clip-text text-transparent`}>
+          <Counter to={value} />
+        </div>
+        <div className="text-xs text-muted-foreground mt-1">{label}</div>
+      </div>
+    </motion.div>
+  );
+}
+
+function RingProgress({ value }: { value: number }) {
+  const r = 36;
+  const c = 2 * Math.PI * r;
+  return (
+    <div className="relative w-28 h-28 mx-auto">
+      <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+        <circle cx="50" cy="50" r={r} stroke="var(--color-secondary)" strokeWidth="10" fill="none" />
+        <motion.circle
+          cx="50" cy="50" r={r}
+          stroke="url(#ringG)"
+          strokeWidth="10" fill="none" strokeLinecap="round"
+          initial={{ strokeDasharray: c, strokeDashoffset: c }}
+          animate={{ strokeDashoffset: c - (c * value) / 100 }}
+          transition={{ type: "spring", stiffness: 60, damping: 20 }}
+        />
+        <defs>
+          <linearGradient id="ringG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="oklch(0.70 0.22 45)" />
+            <stop offset="100%" stopColor="oklch(0.78 0.18 55)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="absolute inset-0 grid place-items-center font-black text-xl text-gradient-primary">
+        <Counter to={Math.round(value)} />%
+      </div>
+    </div>
+  );
+}
