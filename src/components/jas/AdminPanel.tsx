@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "
 import { toast } from "sonner";
 import { actions, COUNTRIES, CURRENCY, PRESET_FIELDS, useStore, type Client, type PlanName, type PackagePlan } from "@/lib/store";
 import { t } from "@/lib/i18n";
-import { Slider } from "./Public";
+import { Slider } from "@/components/ui/slider";
 import { Logo } from "./Logo";
 
 type Page = "dashboard" | "live" | "clients" | "pending" | "analytics" | "add" | "packages";
