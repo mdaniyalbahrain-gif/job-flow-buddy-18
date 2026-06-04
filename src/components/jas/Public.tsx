@@ -333,7 +333,7 @@ function SignupForm({ lang }: { lang: Lang }) {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !wa || !city || !password) { toast.error("Please fill required fields"); return; }
+    if (!name || !wa || !password) { toast.error("Please fill required fields"); return; }
     if (password.length < 8) { toast.error("Password must be at least 8 chars"); return; }
     actions.addClient({
       name, whatsapp: wa, email: email || undefined, city, country,
