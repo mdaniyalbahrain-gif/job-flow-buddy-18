@@ -1,4 +1,3 @@
-import "./lib/error-capture";
 import { createServer } from "node:http";
 import { readFileSync, existsSync } from "node:fs";
 import { join, extname } from "node:path";
@@ -17,18 +16,19 @@ const MIME: Record<string, string> = {
   ".json": "application/json",
 };
 
+const fallbackHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/styles-CDMLsA5N.css"></head><body><script type="module" src="/assets/index-DYIkqkhu.js"></script><script type="module" src="/assets/index-em3rWA79.js"></script></body></html>`;
+
 const server = createServer((req, res) => {
   const url = req.url || "/";
-  const filePath = join(CLIENT_DIR, url === "/" ? "index.html" : url);
+  const filePath = join(CLIENT_DIR, url === "/" ? "" : url);
 
-  if (existsSync(filePath) && !filePath.endsWith("/")) {
+  if (url !== "/" && existsSync(filePath) && !filePath.endsWith("/")) {
     const ext = extname(filePath);
     res.writeHead(200, { "Content-Type": MIME[ext] || "text/plain" });
     res.end(readFileSync(filePath));
   } else {
-   const index = join(process.cwd(), "dist/server/assets/start-D4mdwD77.js").replace(/assets.*/, "index.html") || join(CLIENT_DIR, "_index.html");
     res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(readFileSync(index));
+    res.end(fallbackHtml);
   }
 });
 
