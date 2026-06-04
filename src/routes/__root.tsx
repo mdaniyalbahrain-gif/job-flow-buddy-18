@@ -39,3 +39,31 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground">
             Go home
           </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
+
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+  return (
+    <html>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+        </QueryClientProvider>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
