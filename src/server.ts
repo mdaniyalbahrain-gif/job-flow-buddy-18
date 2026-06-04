@@ -4,6 +4,7 @@ import { join, extname } from "node:path";
 
 const PORT = parseInt(process.env.PORT || "3000");
 const CLIENT_DIR = join(process.cwd(), "dist/client");
+const ASSETS_DIR = join(CLIENT_DIR, "assets");
 
 const MIME: Record<string, string> = {
   ".js": "application/javascript",
@@ -19,7 +20,16 @@ const MIME: Record<string, string> = {
   ".woff2": "font/woff2",
 };
 
-const fallbackHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/styles-CDMLsA5N.css"></head><body><script type="module" src="/assets/index-DYIkqkhu.js"></script><script type="module" src="/assets/index-em3rWA79.js"></script></body></html>`;
+function buildFallbackHtml(): string {
+  const files = existsSync(ASSETS_DIR) ? readdirSync(ASSETS_DIR) : [];
+  const cssFiles = files.filter(f => f.endsWith(".css"));
+  const jsFiles = files.filter(f => f.endsWith(".js"));
+  const cssLinks = cssFiles.map(f => `<link rel="stylesheet" href="/assets/${f}">`).join("");
+  const jsScripts = jsFiles.map(f => `<script type="module" src="/assets/${f}"></script>`).join("");
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${cssLinks}</head><body>${jsScripts}</body></html>`;
+}
+
+const fallbackHtml = buildFallbackHtml();
 
 const server = createServer((req, res) => {
   const url = req.url?.split("?")[0] || "/";
@@ -39,17 +49,4 @@ const server = createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Started server: http://localhost:${PORT}`);
-  console.log("CLIENT_DIR:", CLIENT_DIR);
-  console.log("CLIENT EXISTS:", existsSync(CLIENT_DIR));
-  try {
-    console.log("CLIENT FILES:", readdirSync(CLIENT_DIR));
-    const assetsDir = join(CLIENT_DIR, "assets");
-    if (existsSync(assetsDir)) {
-      console.log("ASSETS FILES:", readdirSync(assetsDir));
-    } else {
-      console.log("ASSETS DIR MISSING!");
-    }
-  } catch (e) {
-    console.log("READ ERROR:", e);
-  }
 });
