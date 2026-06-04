@@ -1,12 +1,12 @@
-import { useMemo, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "motion/react";
 import { toast } from "sonner";
 import { actions, COUNTRIES, CURRENCY, PRESET_FIELDS, useStore, type Client, type PlanName, type PackagePlan } from "@/lib/store";
 import { t } from "@/lib/i18n";
 import { Slider } from "./Public";
 import { Logo } from "./Logo";
 
-type Page = "dashboard" | "clients" | "pending" | "analytics" | "add" | "packages";
+type Page = "dashboard" | "live" | "clients" | "pending" | "analytics" | "add" | "packages";
 
 export function AdminPanel() {
   const s = useStore();
@@ -16,6 +16,7 @@ export function AdminPanel() {
 
   const items: { k: Page; e: string; l: string; b?: number }[] = [
     { k: "dashboard", e: "📊", l: t(lang, "dashboard") },
+    { k: "live", e: "🛰️", l: "Live Jobs" },
     { k: "clients", e: "👥", l: t(lang, "allClients") },
     { k: "pending", e: "⏳", l: t(lang, "pending"), b: pendingCount },
     { k: "analytics", e: "📈", l: t(lang, "analytics") },
@@ -52,6 +53,7 @@ export function AdminPanel() {
         </div>
         <motion.div key={page} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
           {page === "dashboard" && <Dashboard />}
+          {page === "live" && <LiveJobs />}
           {page === "clients" && <AllClients />}
           {page === "pending" && <Pending />}
           {page === "analytics" && <Analytics />}
