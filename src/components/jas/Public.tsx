@@ -1277,10 +1277,24 @@ function Select({ lang, name, label, options, required }: { lang: Lang; name: st
   );
 }
 
-function Slider({ lang }: { lang: Lang }) {
-  const s = useStore();
+export function Slider({ lang }: { lang: Lang }) {
+  void useStore();
+  const [val, setVal] = useState(5);
   return (
     <div>
       <label className="flex justify-between text-sm font-semibold mb-2">
         <span>{t(lang, "labelAlerts")}</span>
-        <span clas
+        <span className="text-primary font-bold">{val} {t(lang, "alertsPerDay")}</span>
+      </label>
+      <input
+        type="range"
+        name="alertsPerDay"
+        min={1}
+        max={30}
+        value={val}
+        onChange={(e) => setVal(Number(e.target.value))}
+        className="w-full accent-primary cursor-pointer"
+      />
+    </div>
+  );
+}
