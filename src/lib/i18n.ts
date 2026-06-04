@@ -87,7 +87,6 @@ export const translations: Record<Lang, Dict> = {
     tlStep4: "Job Alerts Running",
     tlStep4dOk: "Receiving alerts on WhatsApp",
     tlStep4dWait: "Will start after approval",
-      // New keys for premium upgrade
     howTitle: "How It Works",
     howSub: "Three simple steps to get your dream job",
     pricingTitle: "Choose Your Plan",
@@ -136,7 +135,7 @@ export const translations: Record<Lang, Dict> = {
     faq4a: "We accept bank transfers, BenefitPay, and all major payment methods. Send payment and a screenshot via WhatsApp to activate.",
     faq5q: "Can I cancel anytime?",
     faq5a: "Yes, you can pause or cancel your subscription at any time with no questions asked.",
-,
+  },
   AR: {
     brand: "خدمة تنبيه الوظائف",
     login: "تسجيل الدخول",
