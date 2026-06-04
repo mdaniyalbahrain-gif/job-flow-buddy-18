@@ -27,7 +27,6 @@ function useCountUp(target: number, duration = 1800) {
   return { v, start: () => setStarted(true) };
 }
 
-// Smooth scroll utility
 function smoothScrollTo(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -59,7 +58,6 @@ export function PublicScreen({ onLogin }: { onLogin: () => void }) {
   );
 }
 
-// ─── PREMIUM NAVBAR ──────────────────────────────────────────────────────────
 function PremiumNavbar({ lang, onLogin }: { lang: Lang; onLogin: () => void }) {
   const [active, setActive] = useState("home");
   const [scrolled, setScrolled] = useState(false);
@@ -108,7 +106,6 @@ function PremiumNavbar({ lang, onLogin }: { lang: Lang; onLogin: () => void }) {
           <span className="hidden sm:inline text-gradient-primary animate-gradient text-lg font-black">{t(lang, "brand")}</span>
         </motion.a>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-1 relative">
           {navItems.map((item) => (
             <motion.button
@@ -169,7 +166,6 @@ function PremiumNavbar({ lang, onLogin }: { lang: Lang; onLogin: () => void }) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -212,7 +208,6 @@ function LangSwitcher() {
   );
 }
 
-// ─── HERO SECTION ──────────────────────────────────────────────────────────
 function Hero({ lang }: { lang: Lang }) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -245,29 +240,22 @@ function Hero({ lang }: { lang: Lang }) {
       className="relative overflow-hidden bg-hero bg-mesh min-h-screen flex items-center"
       onMouseMove={handleMouseMove}
     >
-      {/* Animated particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {particles.map((p) => (
           <motion.div
             key={p.id}
             className="absolute rounded-full bg-primary/60"
             style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
-            animate={{
-              y: [-20, -60, -20],
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            }}
+            animate={{ y: [-20, -60, -20], opacity: [0.2, 0.8, 0.2], scale: [1, 1.5, 1] }}
             transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
           />
         ))}
       </div>
 
-      {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div style={{ x: springX, y: springY }} className="absolute top-10 -left-24 w-[40rem] h-[40rem] rounded-full bg-primary/25 blur-[100px] animate-blob" />
         <motion.div style={{ x: useTransform(springX, v => -v * 0.7), y: useTransform(springY, v => -v * 0.7) }} className="absolute bottom-0 right-0 w-[36rem] h-[36rem] rounded-full bg-accent/30 blur-[100px] animate-blob" />
         <div className="absolute top-1/3 left-1/2 w-80 h-80 rounded-full bg-primary-glow/20 blur-[80px] animate-blob" style={{ animationDelay: "-12s" }} />
-        {/* Mesh grid overlay */}
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "linear-gradient(rgba(255,107,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,107,0,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
       </div>
 
@@ -283,7 +271,6 @@ function Hero({ lang }: { lang: Lang }) {
           <motion.span animate={{ opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2 }} className="text-primary font-bold">✦</motion.span>
         </motion.div>
 
-        {/* Split text heading */}
         <div className="mb-6">
           <motion.div
             initial={{ opacity: 0 }}
@@ -299,7 +286,7 @@ function Hero({ lang }: { lang: Lang }) {
                 transition={{ delay: 0.1 + i * 0.02, type: "spring", stiffness: 200 }}
                 className="inline-block"
               >
-                {char === " " ? " " : char}
+                {char === " " ? "\u00A0" : char}
               </motion.span>
             ))}
           </motion.div>
@@ -350,7 +337,6 @@ function Hero({ lang }: { lang: Lang }) {
           </motion.a>
         </motion.div>
 
-        {/* Floating glass cards */}
         <div className="mt-16 flex justify-center gap-4 flex-wrap">
           {[
             { icon: "⚡", text: "Real-time Alerts", delay: 0.9 },
@@ -372,7 +358,6 @@ function Hero({ lang }: { lang: Lang }) {
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -423,6 +408,7 @@ function Stats({ lang }: { lang: Lang }) {
     { v: `${countries.v}+`, l: t(lang, "countries") },
     { v: watch.toString(), l: t(lang, "watching") },
   ];
+
   return (
     <section ref={ref} className="py-20 px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
@@ -473,6 +459,7 @@ function HowItWorks({ lang }: { lang: Lang }) {
     { n: "2", icon: "🤖", title: t(lang, "step2t"), desc: t(lang, "step2d") },
     { n: "3", icon: "🚀", title: t(lang, "step3t"), desc: t(lang, "step3d") },
   ], [lang]);
+
   return (
     <section className="py-24 px-6" id="how">
       <div className="max-w-5xl mx-auto">
@@ -481,7 +468,6 @@ function HowItWorks({ lang }: { lang: Lang }) {
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">{t(lang, "howSub")}</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-8 relative">
-          {/* Connecting line */}
           <div className="hidden md:block absolute top-16 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-primary/30 via-primary to-primary/30" />
           {steps.map((s, i) => (
             <motion.div
@@ -493,11 +479,7 @@ function HowItWorks({ lang }: { lang: Lang }) {
               whileHover={{ y: -8, scale: 1.02 }}
               className="relative p-8 rounded-3xl bg-card border border-border shadow-card hover:border-primary/40 hover:shadow-glow transition-all duration-300 text-center group"
             >
-              <motion.div
-                animate={{ y: [-3, 3, -3] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                className="text-5xl mb-6"
-              >
+              <motion.div animate={{ y: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }} className="text-5xl mb-6">
                 {s.icon}
               </motion.div>
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary-glow text-primary-foreground flex items-center justify-center font-black text-sm shadow-glow">
@@ -512,7 +494,7 @@ function HowItWorks({ lang }: { lang: Lang }) {
     </section>
   );
 }
-// ─── PREMIUM PRICING ──────────────────────────────────────────────────────────
+
 function PremiumPricing({ lang }: { lang: Lang }) {
   const s = useStore();
   const plans = useMemo(() => [
@@ -551,7 +533,6 @@ function PremiumPricing({ lang }: { lang: Lang }) {
 
   const [yearly, setYearly] = useState(false);
 
-  // Floating particles
   const particles = useMemo(() => Array.from({ length: 12 }, (_, i) => ({
     id: i, x: Math.random() * 100, y: Math.random() * 100,
     size: Math.random() * 3 + 1, delay: Math.random() * 3, duration: Math.random() * 4 + 4,
@@ -559,7 +540,6 @@ function PremiumPricing({ lang }: { lang: Lang }) {
 
   return (
     <section id="pricing" className="py-24 px-6 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/3 to-transparent" />
         {particles.map((p) => (
@@ -577,7 +557,6 @@ function PremiumPricing({ lang }: { lang: Lang }) {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
           <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "pricingTitle")}</h2>
           <p className="text-muted-foreground text-lg mb-8">{t(lang, "pricingSub")}</p>
-          {/* Toggle */}
           <div className="inline-flex items-center gap-3 p-1.5 rounded-2xl bg-card/80 border border-border">
             <button
               onClick={() => setYearly(false)}
@@ -602,29 +581,22 @@ function PremiumPricing({ lang }: { lang: Lang }) {
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, type: "spring", stiffness: 80, damping: 15 }}
-              whileHover={{
-                y: plan.popular ? -12 : -8,
-                scale: plan.popular ? 1.02 : 1.01,
-                transition: { type: "spring", stiffness: 300, damping: 20 }
-              }}
+              whileHover={{ y: plan.popular ? -12 : -8, scale: plan.popular ? 1.02 : 1.01, transition: { type: "spring", stiffness: 300, damping: 20 } }}
               className={`relative rounded-3xl overflow-hidden bg-gradient-to-br ${plan.color} backdrop-blur-md border-2 ${plan.border} ${plan.glow} p-8 transition-all duration-300 group ${plan.popular ? "md:-mt-4 md:mb-4" : ""}`}
             >
-              {/* Shine sweep on hover */}
               <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
 
-              {/* Animated border glow */}
               {plan.popular && (
                 <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute -inset-1 bg-conic-gradient opacity-30 blur-sm"
+                    className="absolute -inset-1 opacity-30 blur-sm"
                     style={{ background: "conic-gradient(from 0deg, transparent, rgba(255,107,0,0.8), transparent, rgba(255,107,0,0.4), transparent)" }}
                   />
                 </div>
               )}
 
-              {/* Popular badge */}
               {plan.popular && (
                 <motion.div
                   initial={{ y: -10, opacity: 0, scale: 0.8 }}
@@ -670,10 +642,7 @@ function PremiumPricing({ lang }: { lang: Lang }) {
                     transition={{ delay: fi * 0.05 + i * 0.1 }}
                     className="flex items-start gap-3 text-sm"
                   >
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 2, delay: fi * 0.2, repeat: Infinity }}
-                    >
+                    <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, delay: fi * 0.2, repeat: Infinity }}>
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                     </motion.div>
                     <span>{f}</span>
@@ -701,7 +670,7 @@ function PremiumPricing({ lang }: { lang: Lang }) {
     </section>
   );
 }
-// ─── PREMIUM TESTIMONIALS ──────────────────────────────────────────────────────
+
 const TESTIMONIALS = [
   { name: "Ahmed Al-Rashidi", role: "Software Engineer", country: "Bahrain", flag: "🇧🇭", avatar: "AR", rating: 5, text: "Got my dream job at Gulf Air within 2 weeks of subscribing! The real-time alerts meant I applied before anyone else. Absolutely game-changing service.", verified: true, joined: "Jan 2024" },
   { name: "Fatima Hassan", role: "Marketing Manager", country: "UAE", flag: "🇦🇪", avatar: "FH", rating: 5, text: "I was job hunting for 6 months with no luck. After subscribing, I landed a marketing director role in Dubai in just 3 weeks. Worth every fils!", verified: true, joined: "Feb 2024" },
@@ -746,17 +715,8 @@ function PremiumTestimonials({ lang }: { lang: Lang }) {
     setTimeout(() => setIsAutoPlaying(true), 6000);
   };
 
-  const getVisible = () => {
-    const indices = [];
-    for (let i = -1; i <= 1; i++) {
-      indices.push((current + i + TESTIMONIALS.length) % TESTIMONIALS.length);
-    }
-    return indices;
-  };
-
   return (
     <section id="testimonials" className="py-24 px-6 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-primary/8 blur-[80px]" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-accent/8 blur-[80px]" />
@@ -778,7 +738,6 @@ function PremiumTestimonials({ lang }: { lang: Lang }) {
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">Real success stories from real people who found their dream jobs</p>
         </motion.div>
 
-        {/* Main carousel */}
         <div className="relative">
           <div className="overflow-hidden rounded-3xl">
             <AnimatePresence mode="wait">
@@ -795,7 +754,6 @@ function PremiumTestimonials({ lang }: { lang: Lang }) {
             </AnimatePresence>
           </div>
 
-          {/* Side cards (desktop) */}
           <div className="hidden lg:flex absolute top-1/2 -translate-y-1/2 left-0 right-0 justify-between pointer-events-none -mx-20">
             {[
               TESTIMONIALS[(current - 1 + TESTIMONIALS.length) % TESTIMONIALS.length],
@@ -814,16 +772,10 @@ function PremiumTestimonials({ lang }: { lang: Lang }) {
             ))}
           </div>
 
-          {/* Controls */}
           <div className="flex items-center justify-center gap-4 mt-8">
-            <motion.button
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-              onClick={prev}
-              className="w-12 h-12 rounded-full bg-card/80 border border-primary/30 flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all shadow-card"
-            >
+            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={prev} className="w-12 h-12 rounded-full bg-card/80 border border-primary/30 flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all shadow-card">
               <ChevronLeft className="w-5 h-5" />
             </motion.button>
-
             <div className="flex gap-2">
               {TESTIMONIALS.map((_, i) => (
                 <motion.button
@@ -834,18 +786,12 @@ function PremiumTestimonials({ lang }: { lang: Lang }) {
                 />
               ))}
             </div>
-
-            <motion.button
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-              onClick={next}
-              className="w-12 h-12 rounded-full bg-card/80 border border-primary/30 flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all shadow-card"
-            >
+            <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={next} className="w-12 h-12 rounded-full bg-card/80 border border-primary/30 flex items-center justify-center hover:bg-primary/10 hover:border-primary transition-all shadow-card">
               <ChevronRight className="w-5 h-5" />
             </motion.button>
           </div>
         </div>
 
-        {/* Grid of mini cards */}
         <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {TESTIMONIALS.slice(0, 6).map((t2, i) => (
             <motion.div
@@ -873,47 +819,27 @@ function TestimonialCard({ t: testimonial, featured = false, mini = false }: { t
       whileHover={!mini ? { y: -4 } : {}}
       className={`relative rounded-3xl bg-card/80 backdrop-blur-md border border-border/60 hover:border-primary/30 transition-all duration-300 shadow-card hover:shadow-glow overflow-hidden group ${featured ? "p-8 sm:p-10" : mini ? "p-5" : "p-7"}`}
     >
-      {/* Animated bg glow */}
       <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-
-      {/* Quote icon */}
       <div className={`absolute top-4 right-4 text-primary/15 ${featured ? "text-7xl" : "text-5xl"}`}>"</div>
-
-      {/* Stars */}
       <div className="flex gap-1 mb-4">
         {Array.from({ length: testimonial.rating }).map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ scale: 0, rotate: -30 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ delay: i * 0.08, type: "spring", stiffness: 200 }}
-          >
+          <motion.div key={i} initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: i * 0.08, type: "spring", stiffness: 200 }}>
             <Star className={`${featured ? "w-5 h-5" : "w-4 h-4"} text-yellow-400 fill-yellow-400`} />
           </motion.div>
         ))}
       </div>
-
-      <p className={`text-foreground/90 leading-relaxed mb-6 ${featured ? "text-lg" : mini ? "text-sm" : "text-base"} line-clamp-${mini ? "3" : "5"}`}>
+      <p className={`text-foreground/90 leading-relaxed mb-6 ${featured ? "text-lg" : mini ? "text-sm" : "text-base"} ${mini ? "line-clamp-3" : "line-clamp-5"}`}>
         {testimonial.text}
       </p>
-
-      {/* Author */}
       <div className="flex items-center gap-3">
-        {/* Animated avatar */}
         <motion.div
           whileHover={{ scale: 1.1, rotate: 5 }}
           className={`relative flex-shrink-0 ${featured ? "w-14 h-14" : "w-10 h-10"} rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center font-black text-primary-foreground shadow-glow`}
           style={{ fontSize: featured ? 18 : 13 }}
         >
           {testimonial.avatar}
-          {/* Glow ring */}
-          <motion.div
-            animate={{ opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute inset-0 rounded-full ring-2 ring-primary/50"
-          />
+          <motion.div animate={{ opacity: [0.3, 0.7, 0.3] }} transition={{ duration: 2, repeat: Infinity }} className="absolute inset-0 rounded-full ring-2 ring-primary/50" />
         </motion.div>
-
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className={`font-bold truncate ${featured ? "text-base" : "text-sm"}`}>{testimonial.name}</span>
@@ -935,7 +861,7 @@ function TestimonialCard({ t: testimonial, featured = false, mini = false }: { t
     </motion.div>
   );
 }
-// ─── ABOUT SECTION ──────────────────────────────────────────────────────────
+
 const TEAM = [
   { name: "Ali Hassan", role: "Founder & CEO", emoji: "👨‍💼", bio: "10+ years in Gulf recruitment industry" },
   { name: "Sara Ahmed", role: "Head of Technology", emoji: "👩‍💻", bio: "Ex-Google engineer, AI specialist" },
@@ -984,7 +910,6 @@ function AboutSection({ lang }: { lang: Lang }) {
 
   return (
     <section id="about" className="py-24 px-6 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/30 to-transparent" />
         <div className="absolute top-20 right-0 w-96 h-96 rounded-full bg-primary/8 blur-[100px]" />
@@ -992,7 +917,6 @@ function AboutSection({ lang }: { lang: Lang }) {
       </div>
 
       <div className="max-w-6xl mx-auto relative">
-        {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <motion.div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-sm text-primary font-bold mb-4">
             <Users className="w-4 h-4" /> About JAS
@@ -1003,7 +927,6 @@ function AboutSection({ lang }: { lang: Lang }) {
           </p>
         </motion.div>
 
-        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1016,7 +939,6 @@ function AboutSection({ lang }: { lang: Lang }) {
           <CounterItem target={98} label="Satisfaction Rate" suffix="%" />
         </motion.div>
 
-        {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-8 mb-20">
           {[
             { icon: <Target className="w-7 h-7 text-primary" />, title: "Our Mission", text: "To empower every job seeker in the Gulf with instant access to the latest opportunities, giving them the competitive edge to apply first and get hired faster." },
@@ -1040,11 +962,8 @@ function AboutSection({ lang }: { lang: Lang }) {
           ))}
         </div>
 
-        {/* Timeline */}
         <div className="mb-20">
-          <motion.h3 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-3xl font-black text-center mb-12">
-            Our Journey
-          </motion.h3>
+          <motion.h3 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-3xl font-black text-center mb-12">Our Journey</motion.h3>
           <div className="relative">
             <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 via-primary to-primary/50 hidden md:block" />
             {timeline.map((item, i) => (
@@ -1054,7 +973,7 @@ function AboutSection({ lang }: { lang: Lang }) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, type: "spring", stiffness: 80 }}
-                className={`flex md:${i % 2 === 0 ? "flex-row" : "flex-row-reverse"} gap-8 mb-10 items-center`}
+                className={`flex gap-8 mb-10 items-center ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
               >
                 <div className={`flex-1 ${i % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
                   <div className="p-6 rounded-2xl bg-card/80 backdrop-blur border border-border hover:border-primary/40 shadow-card hover:shadow-glow transition-all group">
@@ -1063,10 +982,7 @@ function AboutSection({ lang }: { lang: Lang }) {
                     <p className="text-muted-foreground text-sm">{item.desc}</p>
                   </div>
                 </div>
-                <motion.div
-                  whileHover={{ scale: 1.3, rotate: 180 }}
-                  className="hidden md:flex w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-glow items-center justify-center font-black text-primary-foreground text-xs flex-shrink-0 shadow-glow z-10"
-                >
+                <motion.div whileHover={{ scale: 1.3, rotate: 180 }} className="hidden md:flex w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-glow items-center justify-center font-black text-primary-foreground text-xs flex-shrink-0 shadow-glow z-10">
                   {item.year.slice(2)}
                 </motion.div>
                 <div className="flex-1 hidden md:block" />
@@ -1075,7 +991,6 @@ function AboutSection({ lang }: { lang: Lang }) {
           </div>
         </div>
 
-        {/* Team */}
         <div>
           <motion.h3 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-3xl font-black text-center mb-12">Meet the Team</motion.h3>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1089,11 +1004,7 @@ function AboutSection({ lang }: { lang: Lang }) {
                 whileHover={{ y: -8, scale: 1.03 }}
                 className="p-6 rounded-3xl bg-card/80 backdrop-blur border border-border hover:border-primary/40 shadow-card hover:shadow-glow transition-all text-center group"
               >
-                <motion.div
-                  animate={{ y: [-3, 3, -3] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                  className="text-5xl mb-4"
-                >
+                <motion.div animate={{ y: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }} className="text-5xl mb-4">
                   {member.emoji}
                 </motion.div>
                 <h4 className="font-black text-lg mb-1 group-hover:text-primary transition-colors">{member.name}</h4>
@@ -1107,7 +1018,7 @@ function AboutSection({ lang }: { lang: Lang }) {
     </section>
   );
 }
-// ─── LIVE FEED ──────────────────────────────────────────────────────────────
+
 function LiveFeed({ lang }: { lang: Lang }) {
   const jobs = useMemo(() => [
     { title: "Senior Software Engineer", company: "Gulf Air", loc: "Bahrain", time: "2 min ago", hot: true },
@@ -1117,6 +1028,7 @@ function LiveFeed({ lang }: { lang: Lang }) {
     { title: "Project Manager", company: "NBB", loc: "Manama", time: "24 min ago", hot: false },
     { title: "Data Scientist", company: "Tamkeen", loc: "Bahrain", time: "31 min ago", hot: false },
   ], []);
+
   return (
     <section className="py-20 px-6 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-card/20 to-transparent" />
@@ -1154,7 +1066,6 @@ function LiveFeed({ lang }: { lang: Lang }) {
   );
 }
 
-// ─── SIGNUP FORM ──────────────────────────────────────────────────────────────
 function SignupForm({ lang }: { lang: Lang }) {
   const s = useStore();
   const [open, setOpen] = useState(false);
@@ -1283,9 +1194,145 @@ function Slider({ lang }: { lang: Lang }) {
     <div>
       <label className="flex justify-between text-sm font-semibold mb-2">
         <span>{t(lang, "labelAlerts")}</span>
-<span className="text-sm text-primary font-bold">{s.alertFreq} alerts/day</span>
+        <span className="text-sm text-primary font-bold">{s.alertFreq} alerts/day</span>
       </label>
       <input type="range" min={1} max={20} value={s.alertFreq} onChange={(e) => actions.setAlertFreq(+e.target.value)} className="w-full accent-primary" />
     </div>
+  );
+}
+
+function FAQ({ lang }: { lang: Lang }) {
+  const faqs = useMemo(() => [
+    { q: t(lang, "faq1q"), a: t(lang, "faq1a") },
+    { q: t(lang, "faq2q"), a: t(lang, "faq2a") },
+    { q: t(lang, "faq3q"), a: t(lang, "faq3a") },
+    { q: t(lang, "faq4q"), a: t(lang, "faq4a") },
+    { q: t(lang, "faq5q"), a: t(lang, "faq5a") },
+  ], [lang]);
+  const [open, setOpen] = useState<number | null>(null);
+
+  return (
+    <section id="faq" className="py-24 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-card/20 to-transparent" />
+      <div className="max-w-3xl mx-auto relative">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "faqTitle")}</h2>
+          <p className="text-muted-foreground text-lg">{t(lang, "faqSub")}</p>
+        </motion.div>
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="rounded-2xl bg-card/80 backdrop-blur border border-border hover:border-primary/30 transition-all overflow-hidden"
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between p-5 text-left font-semibold hover:text-primary transition-colors"
+              >
+                <span>{faq.q}</span>
+                <motion.span animate={{ rotate: open === i ? 180 : 0 }} className="text-primary flex-shrink-0 ml-4">▼</motion.span>
+              </button>
+              <AnimatePresence>
+                {open === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact({ lang }: { lang: Lang }) {
+  return (
+    <section id="contact" className="py-24 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/4 to-transparent" />
+      </div>
+      <div className="max-w-2xl mx-auto relative text-center">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <h2 className="text-4xl sm:text-5xl font-black mb-4">{t(lang, "contactTitle")}</h2>
+          <p className="text-muted-foreground text-lg mb-10">{t(lang, "contactSub")}</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.a
+              whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(37,211,102,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              href={WA}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[#25D366] text-white font-bold text-lg shadow-lg"
+            >
+              <span className="text-2xl">💬</span>
+              WhatsApp Us
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              href="mailto:support@jobalertbahrain.com"
+              className="flex items-center justify-center gap-3 px-8 py-4 rounded-2xl border-2 border-primary/40 bg-card/60 backdrop-blur font-bold text-lg hover:border-primary transition-all"
+            >
+              <span className="text-2xl">📧</span>
+              Email Us
+            </motion.a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function Footer({ lang }: { lang: Lang }) {
+  return (
+    <footer className="py-12 px-6 border-t border-border bg-card/40 backdrop-blur">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <Logo size="sm" />
+            <span className="font-black text-lg text-gradient-primary animate-gradient">{t(lang, "brand")}</span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+            <a href="#top" className="hover:text-primary transition-colors">Home</a>
+            <a href="#pricing" className="hover:text-primary transition-colors">Pricing</a>
+            <a href="#faq" className="hover:text-primary transition-colors">FAQ</a>
+            <a href="#about" className="hover:text-primary transition-colors">About</a>
+            <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} JAS. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FloatingWA() {
+  return (
+    <motion.a
+      href={WA}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ delay: 2, type: "spring", stiffness: 200 }}
+      whileHover={{ scale: 1.15, boxShadow: "0 0 30px rgba(37,211,102,0.5)" }}
+      whileTap={{ scale: 0.95 }}
+      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg text-white text-2xl"
+    >
+      <motion.span animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>💬</motion.span>
+    </motion.a>
   );
 }
