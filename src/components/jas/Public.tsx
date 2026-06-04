@@ -1283,4 +1283,9 @@ function Slider({ lang }: { lang: Lang }) {
     <div>
       <label className="flex justify-between text-sm font-semibold mb-2">
         <span>{t(lang, "labelAlerts")}</span>
-        <span clas
+<span className="text-sm text-primary font-bold">{s.alertFreq} alerts/day</span>
+      </label>
+      <input type="range" min={1} max={20} value={s.alertFreq} onChange={(e) => actions.setAlertFreq(+e.target.value)} className="w-full accent-primary" />
+    </div>
+  );
+}
