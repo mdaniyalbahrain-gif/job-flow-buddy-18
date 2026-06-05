@@ -1,7 +1,6 @@
 import { motion } from "motion/react";
-import logoAsset from "@/assets/jas-logo.png.asset.json";
 
-export const LOGO_URL = logoAsset.url;
+export const LOGO_URL = "/jas-logo.png";
 
 type Size = "sm" | "md" | "lg" | "xl";
 const SIZES: Record<Size, string> = {
