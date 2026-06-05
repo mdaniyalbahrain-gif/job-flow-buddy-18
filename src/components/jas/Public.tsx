@@ -1176,7 +1176,7 @@ function Input({ lang, name, label, type = "text", required }: { lang: Lang; nam
   );
 }
 
-function Select({ lang, name, label, options, required }: { lang: Lang; name: string; label: string; options: string[]; required?: boolean }) {
+function Select({ lang, name, label, options, required }: { lang: Lang; name: string; label: string; options: readonly string[]; required?: boolean }) {
   return (
     <div>
       <label className="block text-sm font-semibold mb-1.5">{label}{required && <span className="text-primary ml-1">*</span>}</label>

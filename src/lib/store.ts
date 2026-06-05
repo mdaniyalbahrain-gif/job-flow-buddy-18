@@ -193,7 +193,7 @@ export const actions = {
   },
   setSelectedPlan(plan: PlanName) { setState((s) => ({ ...s, selectedPlan: plan })); },
   setAlertFreq(alertFreq: number) { setState((s) => ({ ...s, alertFreq })); },
-  signup(data: Record<string, string> & { fields: string[]; plan: PlanName }) {
+  signup(data: { name?: string; phone?: string; email?: string; country?: string; fields: string[]; plan: PlanName; alerts?: string }) {
     const country = data.country || "Bahrain";
     const pkg = state.packages.find((p) => p.name === data.plan) ?? state.packages[0];
     return this.addClient({
