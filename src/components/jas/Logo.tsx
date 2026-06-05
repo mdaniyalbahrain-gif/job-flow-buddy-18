@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 
+export const LOGO_URL = "/__l5e/assets-v1/38c5d21b-08d5-4502-9435-5c4648cbad1b/jas-logo.png";
+
 type Size = "sm" | "md" | "lg" | "xl";
 const SIZES: Record<Size, { div: string; text: string }> = {
   sm: { div: "h-8 w-8", text: "text-xs" },
@@ -25,7 +27,7 @@ export function Logo({
       transition={{ type: "spring", stiffness: 280, damping: 16 }}
       className={`relative inline-flex items-center justify-center rounded-full bg-primary ${SIZES[size].div} ${className}`}
     >
-      <span className={`font-black text-white ${SIZES[size].text}`}>JAS</span>
+      <span className={`font-black text-primary-foreground ${SIZES[size].text}`}>JAS</span>
     </motion.div>
   );
 

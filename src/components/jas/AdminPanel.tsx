@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useMotionValue, useTransform, animate } from "
 import { toast } from "sonner";
 import { actions, COUNTRIES, CURRENCY, PRESET_FIELDS, useStore, type Client, type PlanName, type PackagePlan } from "@/lib/store";
 import { t } from "@/lib/i18n";
-import { Slider } from "@/components/ui/slider";
+import { Slider as UiSlider } from "@/components/ui/slider";
 import { Logo } from "./Logo";
 
 type Page = "dashboard" | "live" | "clients" | "pending" | "analytics" | "add" | "packages";
@@ -191,8 +191,8 @@ function EditModal({ client, onClose }: { client: Client; onClose: () => void })
             {COUNTRIES.map((p) => <option key={p}>{p}</option>)}
           </select>
         </div>
-        <Slider label={`Max Fields: ${c.maxFields}`} min={1} max={15} value={c.maxFields} onChange={(v) => setC({ ...c, maxFields: v })} />
-        <Slider label={`Max Jobs/Day: ${c.maxPerDay}`} min={5} max={50} step={5} value={c.maxPerDay} onChange={(v) => setC({ ...c, maxPerDay: v })} />
+        <UiSlider aria-label={`Max Fields: ${c.maxFields}`} min={1} max={15} value={[c.maxFields]} onValueChange={([v]) => setC({ ...c, maxFields: v })} />
+        <UiSlider aria-label={`Max Jobs/Day: ${c.maxPerDay}`} min={5} max={50} step={5} value={[c.maxPerDay]} onValueChange={([v]) => setC({ ...c, maxPerDay: v })} />
         <input type="number" value={c.price} onChange={(e) => setC({ ...c, price: Number(e.target.value) })} className="w-full bg-input border border-border rounded-lg px-3 h-10 text-sm" />
         <div className="flex gap-2 justify-end">
           <button onClick={onClose} className="px-4 py-2 rounded-lg border border-border text-sm">Cancel</button>
@@ -329,8 +329,8 @@ function AddForm({ compact = false }: { compact?: boolean }) {
       </div>
       {plan === "Custom" && (
         <div className="grid sm:grid-cols-2 gap-3 p-3 rounded-lg bg-secondary/50">
-          <Slider label={`Max Fields: ${maxF}`} min={1} max={15} value={maxF} onChange={setMaxF} />
-          <Slider label={`Max Jobs/Day: ${maxD}`} min={5} max={50} step={5} value={maxD} onChange={setMaxD} />
+          <UiSlider aria-label={`Max Fields: ${maxF}`} min={1} max={15} value={[maxF]} onValueChange={([v]) => setMaxF(v)} />
+          <UiSlider aria-label={`Max Jobs/Day: ${maxD}`} min={5} max={50} step={5} value={[maxD]} onValueChange={([v]) => setMaxD(v)} />
         </div>
       )}
       <div className="flex flex-wrap gap-1">

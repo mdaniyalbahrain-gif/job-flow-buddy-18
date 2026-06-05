@@ -7,6 +7,5 @@ export default defineConfig({
   vite: {
     plugins: [],
     publicDir: "public",
-    ssr: false,
   },
 });
