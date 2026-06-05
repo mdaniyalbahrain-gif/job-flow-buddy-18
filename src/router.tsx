@@ -1,6 +1,17 @@
-import { createStart } from "@tanstack/react-start";
+import { QueryClient } from "@tanstack/react-query";
+import { createRouter } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
 
-export const startInstance = createStart(() => ({
-  requestMiddleware: [],
-  ssr: false,
-}));
+const queryClient = new QueryClient();
+
+export const getRouter = () => {
+  const router = createRouter({
+    routeTree,
+    context: { queryClient },
+    defaultPreloadStaleTime: 0,
+    defaultSsr: false,
+  });
+  return router;
+};
+
+export { queryClient };
