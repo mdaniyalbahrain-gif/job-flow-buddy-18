@@ -197,8 +197,8 @@ export const actions = {
     const country = data.country || "Bahrain";
     const pkg = state.packages.find((p) => p.name === data.plan) ?? state.packages[0];
     return this.addClient({
-      name: data.name,
-      whatsapp: data.phone,
+      name: data.name ?? "New Client",
+      whatsapp: data.phone ?? "",
       email: data.email || undefined,
       country,
       plan: pkg.name,
