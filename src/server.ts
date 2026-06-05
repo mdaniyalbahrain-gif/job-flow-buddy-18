@@ -1,21 +1,45 @@
+import "./lib/error-capture";
+import { renderErrorPage } from "./lib/error-page";
+
+type Env = {
+  ASSETS: { fetch: (req: Request) => Promise<Response> };
+};
+
+type ServerEntry = {
+  fetch: (request: Request, env: Env, ctx: unknown) => Promise<Response> | Response;
+};
+
+let serverEntryPromise: Promise<ServerEntry> | undefined;
+
+async function getServerEntry(): Promise<ServerEntry> {
+  if (!serverEntryPromise) {
+    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
+      (m) => (m.default ?? m) as ServerEntry,
+    );
+  }
+  return serverEntryPromise;
+}
+
 export default {
-  async fetch(request: Request, env: { ASSETS: { fetch: typeof fetch } }) {
+  async fetch(request: Request, env: Env, ctx: unknown) {
     const url = new URL(request.url);
     
-    // Serve static assets directly
-    if (url.pathname.startsWith("/assets/") || 
-        url.pathname.endsWith(".png") || 
-        url.pathname.endsWith(".ico") ||
-        url.pathname.endsWith(".svg")) {
+    // Static assets serve karo directly
+    if (url.pathname.startsWith("/assets/") ||
+        url.pathname.match(/\.(png|jpg|jpeg|svg|ico|webp|woff|woff2)$/)) {
       return env.ASSETS.fetch(request);
     }
     
-    // For all other routes, use SSR
+    // SSR ke liye TanStack Start use karo
     try {
-      const { default: handler } = await import("@tanstack/react-start/server-entry") as any;
-      return handler.fetch(request, env, {});
-    } catch {
-      return env.ASSETS.fetch(request);
+      const handler = await getServerEntry();
+      return await handler.fetch(request, env, ctx);
+    } catch (error) {
+      console.error(error);
+      return new Response(renderErrorPage(), {
+        status: 500,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
     }
-  }
+  },
 };
