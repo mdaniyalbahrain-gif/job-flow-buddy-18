@@ -1,55 +1,34 @@
-import { createServer } from "node:http";
-import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
-import { join, extname } from "node:path";
+import "./lib/error-capture";
+import { consumeLastCapturedError } from "./lib/error-capture";
+import { renderErrorPage } from "./lib/error-page";
 
-const PORT = parseInt(process.env.PORT || "3000");
-const CLIENT_DIR = join(process.cwd(), "dist/client");
-const ASSETS_DIR = join(CLIENT_DIR, "assets");
-
-const MIME: Record<string, string> = {
-  ".js": "application/javascript",
-  ".css": "text/css",
-  ".html": "text/html",
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".svg": "image/svg+xml",
-  ".ico": "image/x-icon",
-  ".json": "application/json",
-  ".woff": "font/woff",
-  ".woff2": "font/woff2",
+type ServerEntry = {
+  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
 
-const server = createServer((req, res) => {
-  const url = req.url?.split("?")[0] || "/";
-  
-  // Try exact file first
-  const filePath = join(CLIENT_DIR, url);
-  try {
-    if (existsSync(filePath) && statSync(filePath).isFile()) {
-      const ext = extname(filePath);
-      res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
-      res.end(readFileSync(filePath));
-      return;
-    }
-  } catch {}
+let serverEntryPromise: Promise<ServerEntry> | undefined;
 
-  // Serve index.html for all other routes
-  const indexPath = join(CLIENT_DIR, "index.html");
-  if (existsSync(indexPath)) {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(readFileSync(indexPath));
-    return;
+async function getServerEntry(): Promise<ServerEntry> {
+  if (!serverEntryPromise) {
+    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
+      (m) => (m.default ?? m) as ServerEntry,
+    );
   }
+  return serverEntryPromise;
+}
 
-  // Fallback: generate HTML from assets
-  const files = existsSync(ASSETS_DIR) ? readdirSync(ASSETS_DIR) : [];
-  const css = files.filter(f => f.endsWith(".css")).map(f => `<link rel="stylesheet" href="/assets/${f}">`).join("");
-  const js = files.filter(f => f.endsWith(".js")).map(f => `<script type="module" src="/assets/${f}"></script>`).join("");
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.end(`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${css}</head><body>${js}</body></html>`);
-});
-
-server.listen(PORT, () => {
-  console.log(`Started server: http://localhost:${PORT}`);
-});
+export default {
+  async fetch(request: Request, env: unknown, ctx: unknown) {
+    try {
+      const handler = await getServerEntry();
+      const response = await handler.fetch(request, env, ctx);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return new Response(renderErrorPage(), {
+        status: 500,
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    }
+  },
+};
