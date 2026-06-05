@@ -66,6 +66,8 @@ interface AppState {
   lang: Lang;
   clients: Client[];
   packages: PackagePlan[];
+  selectedPlan: PlanName;
+  alertFreq: number;
   sessionType: "none" | "admin" | "client";
   sessionClientId?: string;
 }
@@ -103,6 +105,8 @@ const initial: AppState = {
   lang: "EN",
   clients: seed,
   packages: DEFAULT_PACKAGES,
+  selectedPlan: "Starter",
+  alertFreq: 10,
   sessionType: "none",
 };
 
@@ -186,6 +190,26 @@ export const actions = {
     const c = state.clients.find((x) => x.id === id);
     if (!c) return;
     this.updateClient(id, { status: c.status === "active" ? "paused" : "active" });
+  },
+  setSelectedPlan(plan: PlanName) { setState((s) => ({ ...s, selectedPlan: plan })); },
+  setAlertFreq(alertFreq: number) { setState((s) => ({ ...s, alertFreq })); },
+  signup(data: Record<string, string> & { fields: string[]; plan: PlanName }) {
+    const country = data.country || "Bahrain";
+    const pkg = state.packages.find((p) => p.name === data.plan) ?? state.packages[0];
+    return this.addClient({
+      name: data.name,
+      whatsapp: data.phone,
+      email: data.email || undefined,
+      country,
+      plan: pkg.name,
+      fields: data.fields,
+      maxFields: pkg.maxFields,
+      maxPerDay: Number(data.alerts) || state.alertFreq,
+      price: pkg.prices[country] ?? pkg.prices.Bahrain,
+      currency: CURRENCY[country] ?? CURRENCY.Bahrain,
+      password: "client" + Math.random().toString(36).slice(2, 6),
+      status: "pending",
+    });
   },
   updatePackages(pkgs: PackagePlan[]) { setState((s) => ({ ...s, packages: pkgs })); },
 };
