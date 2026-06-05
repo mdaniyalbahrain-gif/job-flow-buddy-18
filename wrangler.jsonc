@@ -6,7 +6,6 @@
   "main": "dist/server/server.js",
   "assets": {
     "directory": "./dist/client",
-    "binding": "ASSETS",
-    "serve_directly": true
+    "binding": "ASSETS"
   }
 }
