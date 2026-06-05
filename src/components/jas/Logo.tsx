@@ -1,7 +1,5 @@
 import { motion } from "motion/react";
 
-export const LOGO_URL = "";
-
 type Size = "sm" | "md" | "lg" | "xl";
 const SIZES: Record<Size, { div: string; text: string }> = {
   sm: { div: "h-8 w-8", text: "text-xs" },
